@@ -117,11 +117,19 @@ const dataSlice = createSlice({
         }).addCase(edit.fulfilled, (state, action) => {
             state.loading = false
             state.error = ""
-            state.data = [...state.data.filter((item) => item.id != action.payload.id), action.payload]
 
-            
-            state.originalData = [...state.originalData.filter((item) => item.id != action.payload.id), action.payload]
-            state.filteredData = [...state.filteredData.filter((item) => item.id != action.payload.id), action.payload]
+            let target = state.data.find(element => element.id == action.payload.id)
+            let indexOfTarget = state.data.indexOf(target)
+            state.data.splice(indexOfTarget, 1,action.payload)
+
+
+            let target2 = state.originalData.find(element => element.id == action.payload.id)
+            let indexOfTarget2 = state.originalData.indexOf(target2)
+            state.originalData.splice(indexOfTarget2, 1,action.payload)
+
+            let target3 = state.filteredData.find(element => element.id == action.payload.id)
+            let indexOfTarget3 = state.filteredData.indexOf(target3)
+            state.filteredData.splice(indexOfTarget3, 1,action.payload)
         }).addCase(edit.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
@@ -149,6 +157,6 @@ const dataSlice = createSlice({
 
 
 
-export const { searchData ,sortData} = dataSlice.actions
+export const { searchData, sortData } = dataSlice.actions
 
 export default dataSlice.reducer
